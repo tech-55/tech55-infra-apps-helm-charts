@@ -1,0 +1,31 @@
+appName: helloapi
+namespace: default
+replicaCount: 1
+pathBase: ""
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+resources: {}
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+env: {}
+ingress:
+  enabled: false
+  host: chart-example.local
+  className: ""
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80

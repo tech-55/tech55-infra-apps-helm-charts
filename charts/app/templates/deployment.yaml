@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.appName }}
+        image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{.Values.service.targetPort}}
+        env:
+        - name: ASPNETCORE_PATHBASE
+          value: "{{ .Values.pathBase }}"
+{{- if .Values.env }}
+{{- range $key, $val := .Values.env }}
+        - name: {{ $key }}
+          value: "{{ $val }}"
+{{- end }}
+{{- end }}
+        {{- with .Values.livenessProbe }}
+        livenessProbe:
+{{ toYaml . | indent 12 }}
+        {{- end }}
+        {{- with .Values.readinessProbe }}
+        readinessProbe:
+{{ toYaml . | indent 12 }}
+        {{- end }}
+        {{- with .Values.resources }}
+        resources:
+{{ toYaml . | indent 12 }}
+        {{- end }}
