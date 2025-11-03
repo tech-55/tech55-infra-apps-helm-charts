@@ -25,12 +25,12 @@ autoscaling:
 livenessProbe:
   httpGet:
     path: /hc
-    port: http
+    port: 80
 
 readinessProbe:
   httpGet:
     path: /ready
-    port: http
+    port: 80
 
 env:
   default:
