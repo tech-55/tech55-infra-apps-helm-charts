@@ -32,3 +32,7 @@ readinessProbe:
     port: http
 
 env: {}
+
+serviceAccount:
+  name: ""
+  roleArn: ""

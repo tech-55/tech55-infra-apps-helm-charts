@@ -15,6 +15,9 @@ spec:
       labels:
         app: {{ .Values.appName }}
     spec:
+      {{- if .Values.serviceAccount.roleArn }}
+      serviceAccountName: {{ default (printf "%s-sa" .Values.appName) .Values.serviceAccount.name }}
+      {{- end }}
       containers:
       - name: {{ .Values.appName }}
         image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
