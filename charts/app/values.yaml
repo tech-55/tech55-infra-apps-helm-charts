@@ -1,6 +1,6 @@
 appName: app
 namespace: default
-replicaCount: 1
+environmentName: default
 
 image:
   repository: nginx
@@ -8,30 +8,32 @@ image:
   port: 80
 
 resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 500m
-    memory: 256Mi
+  default:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
 
 autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
+  default:
+    minReplicas: 1
+    maxReplicas: 2
+    targetCPUUtilizationPercentage: 80
 
 livenessProbe:
   httpGet:
-    path: /
+    path: /hc
     port: http
 
 readinessProbe:
   httpGet:
-    path: /
+    path: /ready
     port: http
 
-env: {}
+env:
+  default:
 
 serviceAccount:
   name: ""

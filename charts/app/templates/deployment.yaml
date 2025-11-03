@@ -1,12 +1,13 @@
+{{- $envName := .Values.environmentName | default "default" -}}
+{{- $envResources := (index .Values.resources $envName | default .Values.resources.default) -}}
+{{- $envVars := (index .Values.env $envName | default .Values.env.default) -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.appName }}-deployment
   namespace: {{ .Values.namespace }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{.Values.replicaCount}}
-{{- end }}
   selector:
     matchLabels:
       app: {{ .Values.appName }}
@@ -23,11 +24,11 @@ spec:
         image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
         ports:
           - containerPort: {{.Values.image.port}}
-        {{- if .Values.env }}
+        {{- if  $envVars }}
         env: 
-        {{- range $key, $val := .Values.env }}
-          - name: {{ $key }}
-            value: "{{ $val }}"
+        {{- range $env := $envVars}}
+          - name: {{ $env.name }}
+            value: "{{ $env.value }}"
         {{- end }}
         {{- end }}
         {{- with .Values.livenessProbe }}
@@ -38,7 +39,7 @@ spec:
         readinessProbe:
 {{ toYaml . | indent 12 }}
         {{- end }}
-        {{- with .Values.resources }}
+        {{- with $envResources }}
         resources:
 {{ toYaml . | indent 12 }}
         {{- end }}
