@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Values.appName }}-virtualservice
+  namespace: {{ .Values.namespace }}
+spec:
+  hosts:
+  - {{ .Values.appName }}.{{ .Values.namespace }}.55tech-pci-r1.internal.com
+  gateways:
+  - private-istio-gateway
+  http:
+  - route:
+    - destination:
+        host: {{ .Values.appName }}-service.{{ .Values.namespace }}.svc.cluster.local
+        port:
+          number: 80
