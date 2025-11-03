@@ -4,7 +4,9 @@ metadata:
   name: {{ .Values.appName }}-deployment
   namespace: {{ .Values.namespace }}
 spec:
+{{- if not .Values.autoscaling.enabled }}
   replicas: {{.Values.replicaCount}}
+{{- end }}
   selector:
     matchLabels:
       app: {{ .Values.appName }}
@@ -16,18 +18,15 @@ spec:
       containers:
       - name: {{ .Values.appName }}
         image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
-        - containerPort: {{.Values.service.targetPort}}
-        env:
-        - name: ASPNETCORE_PATHBASE
-          value: "{{ .Values.pathBase }}"
-{{- if .Values.env }}
-{{- range $key, $val := .Values.env }}
-        - name: {{ $key }}
-          value: "{{ $val }}"
-{{- end }}
-{{- end }}
+          - containerPort: {{.Values.image.port}}
+        {{- if .Values.env }}
+        env: 
+        {{- range $key, $val := .Values.env }}
+          - name: {{ $key }}
+            value: "{{ $val }}"
+        {{- end }}
+        {{- end }}
         {{- with .Values.livenessProbe }}
         livenessProbe:
 {{ toYaml . | indent 12 }}
