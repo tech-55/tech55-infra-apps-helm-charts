@@ -1,5 +1,7 @@
-{{- $envName := .Values.environmentName | default "default" -}}
-{{- $envHPA := (index .Values.autoscaling $envName | default .Values.autoscaling.default) -}}
+
+{{- $envName := include "app.envName" . -}}
+{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" $envName) | fromYaml -}}
+
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

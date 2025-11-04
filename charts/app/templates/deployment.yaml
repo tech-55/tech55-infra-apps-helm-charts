@@ -1,8 +1,8 @@
-{{- $envName := .Values.environmentName | default "default" -}}
-{{- $envProbe := (index .Values.probe $envName | default .Values.probe.default) -}}
-{{- $envResources := (index .Values.resources $envName | default .Values.resources.default) -}}
-{{- $envVars := (index .Values.env $envName | default .Values.env.default) -}}
-{{- $envServiceAccount := (index .Values.serviceAccount $envName | default .Values.serviceAccount.default) -}}
+{{- $envName := include "app.envName" . -}}
+{{- $envProbe := include "app.envValue" (dict "Values" .Values "Key" "probe" "Env" $envName) | fromYaml -}}
+{{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" $envName) | fromYaml -}}
+{{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" $envName) | fromYaml -}}
+{{- $envVars := (index .Values.env $envName | default (index .Values.env "default")) -}}
 
 apiVersion: apps/v1
 kind: Deployment
