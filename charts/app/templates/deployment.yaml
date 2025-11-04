@@ -2,6 +2,7 @@
 {{- $envProbe := (index .Values.probe $envName | default .Values.probe.default) -}}
 {{- $envResources := (index .Values.resources $envName | default .Values.resources.default) -}}
 {{- $envVars := (index .Values.env $envName | default .Values.env.default) -}}
+{{- $envServiceAccount := (index .Values.serviceAccount $envName | default .Values.serviceAccount.default) -}}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -17,8 +18,8 @@ spec:
       labels:
         app: {{ .Values.appName }}
     spec:
-      {{- if .Values.serviceAccount.roleArn }}
-      serviceAccountName: {{ default (printf "%s-sa" .Values.appName) .Values.serviceAccount.name }}
+      {{- if $envServiceAccount.roleArn }}
+      serviceAccountName: {{ default (printf "%s-sa" .Values.appName) $envServiceAccount.name }}
       {{- end }}
       containers:
       - name: {{ .Values.appName }}
