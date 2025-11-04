@@ -5,7 +5,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Values.appName }}-hpa
+  name: {{ .Values.appName }}-{{.Values.environmentName}}-hpa
   namespace: {{ .Values.namespace }}
 spec:
   scaleTargetRef:
@@ -14,10 +14,22 @@ spec:
     name: {{ .Values.appName }}-deployment
   minReplicas: {{ $envHPA.minReplicas }}
   maxReplicas: {{ $envHPA.maxReplicas }}
+  {{- if or $envHPA.targetCPUUtilizationPercentage $envHPA.targetMemoryUtilizationPercentage }}
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: {{ $envHPA.targetCPUUtilizationPercentage }}
+    {{- if $envHPA.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ $envHPA.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if $envHPA.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ $envHPA.targetMemoryUtilizationPercentage }}
+    {{- end }}
+  {{- end }}

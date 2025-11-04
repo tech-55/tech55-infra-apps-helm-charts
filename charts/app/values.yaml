@@ -21,31 +21,31 @@ autoscaling:
     minReplicas: 1
     maxReplicas: 2
     targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 75
 
-probe:
-  default:
-    liveness:
-      httpGet:
-        path: /hc
-        port: 80
-      initialDelaySeconds: 10
-      periodSeconds: 10
-      timeoutSeconds: 3
-      successThreshold: 1
-      failureThreshold: 3
-    readiness:
-      httpGet:
-        path: /ready
-        port: 80
-      initialDelaySeconds: 5
-      periodSeconds: 5
-      timeoutSeconds: 3
-      successThreshold: 1
+liveness:
+  httpGet:
+    path: /hc
+    port: 80
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+readiness:
+  httpGet:
+    path: /ready
+    port: 80
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  successThreshold: 1
 
 env:
   default:
 
 serviceAccount:
   default:
-    name: ""
     roleArn: ""
+
+internalDomainName: 55tech-pci-r1.internal.com

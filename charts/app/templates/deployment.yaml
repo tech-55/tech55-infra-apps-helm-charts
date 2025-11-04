@@ -1,5 +1,4 @@
 {{- $envName := include "app.envName" . -}}
-{{- $envProbe := include "app.envValue" (dict "Values" .Values "Key" "probe" "Env" $envName) | fromYaml -}}
 {{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" $envName) | fromYaml -}}
 {{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" $envName) | fromYaml -}}
 {{- $envVars := (index .Values.env $envName | default (index .Values.env "default")) -}}
@@ -7,7 +6,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}-deployment
+  name: {{ .Values.appName }}-{{.Values.environmentName}}-deployment
   namespace: {{ .Values.namespace }}
 spec:
   selector:
@@ -33,11 +32,11 @@ spec:
             value: "{{ $env.value }}"
         {{- end }}
         {{- end }}
-        {{- with $envProbe.liveness }}
+        {{- with .Values.liveness }}
         livenessProbe:
 {{ toYaml . | indent 12 }}
         {{- end }}
-        {{- with $envProbe.readiness }}
+        {{- with .Values.readiness }}
         readinessProbe:
 {{ toYaml . | indent 12 }}
         {{- end }}
