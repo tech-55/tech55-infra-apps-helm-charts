@@ -1,4 +1,5 @@
 {{- $envName := .Values.environmentName | default "default" -}}
+{{- $envProbe := (index .Values.probe $envName | default .Values.probe.default) -}}
 {{- $envResources := (index .Values.resources $envName | default .Values.resources.default) -}}
 {{- $envVars := (index .Values.env $envName | default .Values.env.default) -}}
 
@@ -31,11 +32,11 @@ spec:
             value: "{{ $env.value }}"
         {{- end }}
         {{- end }}
-        {{- with .Values.probe.liveness }}
+        {{- with $envProbe.liveness }}
         livenessProbe:
 {{ toYaml . | indent 12 }}
         {{- end }}
-        {{- with .Values.probe.readiness }}
+        {{- with $envProbe.readiness }}
         readinessProbe:
 {{ toYaml . | indent 12 }}
         {{- end }}
