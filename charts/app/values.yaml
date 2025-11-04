@@ -22,15 +22,24 @@ autoscaling:
     maxReplicas: 2
     targetCPUUtilizationPercentage: 80
 
-livenessProbe:
-  httpGet:
-    path: /hc
-    port: 80
-
-readinessProbe:
-  httpGet:
-    path: /ready
-    port: 80
+probe:
+  liveness:
+    httpGet:
+      path: /hc
+      port: 8080
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 3
+  readiness:
+    httpGet:
+      path: /ready
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    successThreshold: 1
 
 env:
   default:

@@ -31,11 +31,11 @@ spec:
             value: "{{ $env.value }}"
         {{- end }}
         {{- end }}
-        {{- with .Values.livenessProbe }}
+        {{- with .Values.probe.liveness }}
         livenessProbe:
 {{ toYaml . | indent 12 }}
         {{- end }}
-        {{- with .Values.readinessProbe }}
+        {{- with .Values.probe.readiness }}
         readinessProbe:
 {{ toYaml . | indent 12 }}
         {{- end }}
