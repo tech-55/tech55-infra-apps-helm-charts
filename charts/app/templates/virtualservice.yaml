@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: {{ .Values.appName }}-{{.Values.environmentName}}-vs
+  name: {{ .Values.appName }}-{{ .Values.namespace }}-{{.Values.environmentName}}-vs
   namespace: istio-system
 spec:
   hosts:
