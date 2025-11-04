@@ -12,10 +12,12 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.appName }}
+      environment: {{ .Values.environmentName }}
   template:
     metadata:
       labels:
         app: {{ .Values.appName }}
+        environment: {{ .Values.environmentName }}
     spec:
       {{- if $envServiceAccount.roleArn }}
       serviceAccountName: {{ default (printf "%s-sa" .Values.appName) $envServiceAccount.name }}

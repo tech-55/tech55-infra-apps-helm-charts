@@ -11,7 +11,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.appName }}-deployment
+    name: {{ .Values.appName }}-{{.Values.environmentName}}-deployment
   minReplicas: {{ $envHPA.minReplicas }}
   maxReplicas: {{ $envHPA.maxReplicas }}
   {{- if or $envHPA.targetCPUUtilizationPercentage $envHPA.targetMemoryUtilizationPercentage }}
