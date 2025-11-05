@@ -9,6 +9,6 @@ entries:
     name: app
     type: application
     urls:
-    - https://tech55.github.io/tech55-infra-apps-helm-charts/app-0.1.0.tgz
+    - https://tech-55.github.io/tech55-infra-apps-helm-charts/app-0.1.0.tgz
     version: 0.1.0
 generated: "2025-11-04T17:42:50.7748028-03:00"
