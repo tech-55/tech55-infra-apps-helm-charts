@@ -1,0 +1,48 @@
+{{- $envName := include "app.envName" . -}}
+{{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" $envName) | fromYaml -}}
+{{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" $envName) | fromYaml -}}
+{{- $envVars := (index .Values.env $envName | default (index .Values.env "default")) -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}-{{.Values.environmentName}}-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+      environment: {{ .Values.environmentName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+        environment: {{ .Values.environmentName }}
+    spec:
+      {{- if $envServiceAccount.roleArn }}
+      serviceAccountName: {{ default (printf "%s-sa" .Values.appName) $envServiceAccount.name }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.appName }}
+        image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
+        ports:
+          - containerPort: {{.Values.image.port}}
+        {{- if  $envVars }}
+        env: 
+        {{- range $env := $envVars}}
+          - name: {{ $env.name }}
+            value: "{{ $env.value }}"
+        {{- end }}
+        {{- end }}
+        {{- with .Values.liveness }}
+        livenessProbe:
+{{ toYaml . | indent 12 }}
+        {{- end }}
+        {{- with .Values.readiness }}
+        readinessProbe:
+{{ toYaml . | indent 12 }}
+        {{- end }}
+        {{- with $envResources }}
+        resources:
+{{ toYaml . | indent 12 }}
+        {{- end }}
