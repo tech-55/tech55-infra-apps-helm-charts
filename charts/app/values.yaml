@@ -48,4 +48,5 @@ serviceAccount:
   default:
     roleArn: ""
 
-internalDomainName: 55tech-pci-r1.internal.com
+internalDomainName:
+  default:
