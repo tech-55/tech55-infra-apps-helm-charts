@@ -1,5 +1,5 @@
 {{- $envName := include "app.envName" . -}}
-{{- $envInternalDomainName := include "app.envValue" (dict "Values" .Values "Key" "internalDomainName" "Env" $envName) | fromYaml -}}
+{{- $envInternalDomainName := include "app.envValue" (dict "Values" .Values "Key" "internalDomainName" "Env" $envName) | trim -}}
 
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
