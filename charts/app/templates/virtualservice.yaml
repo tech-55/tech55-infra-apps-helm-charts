@@ -10,7 +10,7 @@ spec:
   hosts:
   - {{ .Values.appName }}.{{ .Values.namespace }}.{{ $envInternalDomainName }}
   gateways:
-  - private-istio-gateway
+  - istio-gateway
   http:
   - route:
     - destination:
