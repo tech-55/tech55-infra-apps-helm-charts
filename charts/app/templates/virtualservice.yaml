@@ -1,5 +1,5 @@
 {{- $envName := include "app.envName" . -}}
-{{- $envInternalDomainName := include "app.envValue" (dict "Values" .Values "Key" "internalDomainName" "Env" $envName) | trim -}}
+{{- $envInternal := include "app.envValue" (dict "Values" .Values "Key" "internal" "Env" $envName) | fromYaml -}}
 
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -8,9 +8,9 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - {{ .Values.appName }}.{{ .Values.namespace }}.{{ $envInternalDomainName }}
+  - {{ .Values.appName }}.{{ .Values.namespace }}.{{ $envInternal.domain }}
   gateways:
-  - istio-gateway
+{{ toYaml $envInternal.gateways | indent 4 }}
   http:
   - route:
     - destination:
