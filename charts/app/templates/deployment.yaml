@@ -20,7 +20,7 @@ spec:
         environment: {{ .Values.environmentName }}
     spec:
       {{- if $envServiceAccount.roleArn }}
-      serviceAccountName: {{ default (printf "%s-sa" .Values.appName) $envServiceAccount.name }}
+      serviceAccountName: {{.Values.appName}}-{{.Values.environmentName }}-sa
       {{- end }}
       containers:
       - name: {{ .Values.appName }}
