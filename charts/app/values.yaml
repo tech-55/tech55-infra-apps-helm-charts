@@ -48,5 +48,8 @@ serviceAccount:
   default:
     roleArn: ""
 
-internalDomainName:
+internal:
   default:
+    domain: 
+    gateways:
+
