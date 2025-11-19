@@ -9,6 +9,7 @@ metadata:
 spec:
   hosts:
   - {{ .Values.appName }}.{{ .Values.namespace }}.{{ $envDnsInternal.domain }}
+  - {{ .Values.appName }}-{{.Values.environmentName}}-service.{{ .Values.namespace }}.svc.cluster.local
   gateways:
 {{ toYaml $envDnsInternal.gateways | indent 4 }}
   http:
