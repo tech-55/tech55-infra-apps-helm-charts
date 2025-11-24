@@ -1,0 +1,14 @@
+{{- $envName := include "app.envName" . -}}
+{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" $envName) | fromYaml -}}
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Values.appName }}-{{ .Values.environmentName }}-pdb
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+      environment: {{ .Values.environmentName }}
+  minAvailable: {{ $envHPA.minReplicas }}

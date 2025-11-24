@@ -27,19 +27,21 @@ liveness:
   httpGet:
     path: /hc
     port: 80
-  initialDelaySeconds: 10
+  initialDelaySeconds: 20
   periodSeconds: 10
-  timeoutSeconds: 3
-  successThreshold: 1
-  failureThreshold: 3
+  timeoutSeconds: 5
+  successThreshold: 2
+  failureThreshold: 5
+
 readiness:
   httpGet:
     path: /ready
     port: 80
-  initialDelaySeconds: 5
-  periodSeconds: 5
-  timeoutSeconds: 3
-  successThreshold: 1
+  initialDelaySeconds: 40
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 2
+  failureThreshold: 5
 
 env:
   default:
@@ -53,3 +55,5 @@ dnsInternal:
     domain: 
     gateways:
 
+shutdown:
+  timeoutSeconds: 30
