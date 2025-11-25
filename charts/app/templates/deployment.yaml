@@ -27,7 +27,7 @@ spec:
       {{- if $envServiceAccount.roleArn }}
       serviceAccountName: {{.Values.appName}}-{{.Values.environmentName }}-sa
       {{- end }}
-      terminationGracePeriodSeconds: {{ .Values.shutdown.timeoutSeconds }}
+      terminationGracePeriodSeconds: {{default 30 .Values.gracefulshutdown.terminationGracePeriodSeconds }}
       topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: topology.kubernetes.io/zone
@@ -41,13 +41,17 @@ spec:
         image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
         ports:
           - containerPort: {{.Values.image.port}}
-        {{- if  $envVars }}
-        env: 
-        {{- range $env := $envVars}}
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "{{ .Values.environmentName }}"
+          - name: APP_ENV
+            value: "{{ .Values.environmentName }}"
+          - name: NODE_ENV
+            value: "{{ .Values.environmentName }}"
+          {{- range $env := $envVars}}
           - name: {{ $env.name }}
             value: "{{ $env.value }}"
-        {{- end }}
-        {{- end }}
+          {{- end }}
         {{- with .Values.liveness }}
         livenessProbe:
 {{ toYaml . | indent 12 }}
