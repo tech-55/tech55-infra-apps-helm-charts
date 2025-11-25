@@ -1,8 +1,8 @@
 {{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" .Values.environmentName) | fromYaml -}}
 {{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" .Values.environmentName) | fromYaml -}}
 {{- $envVars := (index .Values.env .Values.environmentName | default (index .Values.env "default")) -}}
-{{- $envName := include "app.envName" . -}}
-{{- $appName := include "app.appName" . -}}
+{{- $envName := include "app.toLower" .Values.environmentName -}}
+{{- $appName := include "app.toLower" .Values.appName -}}
 
 apiVersion: apps/v1
 kind: Deployment

@@ -1,5 +1,5 @@
-{{- $envName := include "app.envName" . -}}
-{{- $appName := include "app.appName" . -}}
+{{- $envName := include "app.toLower" .Values.environmentName -}}
+{{- $appName := include "app.toLower" .Values.appName -}}
 {{- $envDnsInternal := include "app.envValue" (dict "Values" .Values "Key" "dnsInternal" "Env" .Values.environmentName) | fromYaml -}}
 
 apiVersion: networking.istio.io/v1beta1

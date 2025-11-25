@@ -1,9 +1,5 @@
-{{- define "app.envName" -}}
-{{- default "default" .Values.environmentName | lower -}}
-{{- end -}}
-
-{{- define "app.appName" -}}
-{{- default "app" .Values.appName | lower -}}
+{{- define "app.toLower" -}}
+{{- . | lower -}}
 {{- end -}}
 
 {{- define "app.envValue" -}}

@@ -1,6 +1,6 @@
 
-{{- $envName := include "app.envName" . -}}
-{{- $appName := include "app.appName" . -}}
+{{- $envName := include "app.toLower" .Values.environmentName -}}
+{{- $appName := include "app.toLower" .Values.appName -}}
 {{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" .Values.environmentName) | fromYaml -}}
 
 apiVersion: autoscaling/v2

@@ -1,5 +1,5 @@
-{{- $envName := include "app.envName" . -}}
-{{- $appName := include "app.appName" . -}}
+{{- $envName := include "app.toLower" .Values.environmentName -}}
+{{- $appName := include "app.toLower" .Values.appName -}}
 
 apiVersion: v1
 kind: Service
