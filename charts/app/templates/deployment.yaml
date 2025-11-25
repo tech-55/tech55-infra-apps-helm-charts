@@ -27,7 +27,7 @@ spec:
       {{- if $envServiceAccount.roleArn }}
       serviceAccountName: {{.Values.appName}}-{{.Values.environmentName }}-sa
       {{- end }}
-      terminationGracePeriodSeconds: {{default 30 .Values.gracefulshutdown.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{default 30 .Values.deployment.gracefulshutdown.terminationGracePeriodSeconds }}
       topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: topology.kubernetes.io/zone
