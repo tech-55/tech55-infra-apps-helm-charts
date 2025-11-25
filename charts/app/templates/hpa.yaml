@@ -1,17 +1,18 @@
 
 {{- $envName := include "app.envName" . -}}
-{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" $envName) | fromYaml -}}
+{{- $appName := include "app.appName" . -}}
+{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" .Values.environmentName) | fromYaml -}}
 
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ .Values.appName }}-{{.Values.environmentName}}-hpa
+  name: {{ $appName }}-{{$envName}}-hpa
   namespace: {{ .Values.namespace }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ .Values.appName }}-{{.Values.environmentName}}-deployment
+    name: {{ $appName }}-{{$envName}}-deployment
   minReplicas: {{ $envHPA.minReplicas }}
   maxReplicas: {{ $envHPA.maxReplicas }}
   {{- if or $envHPA.targetCPUUtilizationPercentage $envHPA.targetMemoryUtilizationPercentage }}

@@ -1,18 +1,19 @@
+{{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" .Values.environmentName) | fromYaml -}}
+{{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" .Values.environmentName) | fromYaml -}}
+{{- $envVars := (index .Values.env .Values.environmentName | default (index .Values.env "default")) -}}
 {{- $envName := include "app.envName" . -}}
-{{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" $envName) | fromYaml -}}
-{{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" $envName) | fromYaml -}}
-{{- $envVars := (index .Values.env $envName | default (index .Values.env "default")) -}}
+{{- $appName := include "app.appName" . -}}
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}-{{.Values.environmentName}}-deployment
+  name: {{ $appName }}-{{$envName}}-deployment
   namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.appName }}
-      environment: {{ .Values.environmentName }}
+      app: {{ $appName }}
+      environment: {{ $envName }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,11 +22,11 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.appName }}
-        environment: {{ .Values.environmentName }}
+        app: {{ $appName }}
+        environment: {{ $envName }}
     spec:
       {{- if $envServiceAccount.roleArn }}
-      serviceAccountName: {{.Values.appName}}-{{.Values.environmentName }}-sa
+      serviceAccountName: {{$appName}}-{{$envName }}-sa
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.deployment.gracefulShutdown.terminationGracePeriodSeconds }}
       topologySpreadConstraints:
@@ -34,20 +35,20 @@ spec:
         whenUnsatisfiable: ScheduleAnyway
         labelSelector:
           matchLabels:
-            app: {{ .Values.appName }}
-            environment: {{ .Values.environmentName }}
+            app: {{ $appName }}
+            environment: {{ $envName }}
       containers:
-      - name: {{ .Values.appName }}
+      - name: {{ $appName }}
         image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
         ports:
           - containerPort: {{.Values.image.port}}
         env:
           - name: ASPNETCORE_ENVIRONMENT
-            value: "{{ .Values.environmentName }}"
+            value: "{{ $envName }}"
           - name: APP_ENV
-            value: "{{ .Values.environmentName }}"
+            value: "{{ $envName }}"
           - name: NODE_ENV
-            value: "{{ .Values.environmentName }}"
+            value: "{{ $envName }}"
           {{- range $env := $envVars}}
           - name: {{ $env.name }}
             value: "{{ $env.value }}"

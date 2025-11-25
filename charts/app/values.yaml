@@ -1,6 +1,6 @@
 appName: app
 namespace: default
-environmentName: default
+environmentName: Default
 
 image:
   repository: nginx
@@ -8,7 +8,7 @@ image:
   port: 80
 
 resources:
-  default:
+  Default:
     requests:
       cpu: 100m
       memory: 128Mi
@@ -17,7 +17,7 @@ resources:
       memory: 128Mi
 
 autoscaling:
-  default:
+  Default:
     minReplicas: 1
     maxReplicas: 2
     targetCPUUtilizationPercentage: 80
@@ -44,14 +44,14 @@ readiness:
   failureThreshold: 5
 
 env:
-  default:
+  Default:
 
 serviceAccount:
-  default:
+  Default:
     roleArn: ""
 
 dnsInternal:
-  default:
+  Default:
     domain: 
     gateways:
 
