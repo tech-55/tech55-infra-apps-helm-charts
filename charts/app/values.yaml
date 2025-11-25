@@ -55,5 +55,6 @@ dnsInternal:
     domain: 
     gateways:
 
-shutdown:
-  timeoutSeconds: 30
+deployment:
+  gracefulShutdown:
+    terminationGracePeriodSeconds: 30
