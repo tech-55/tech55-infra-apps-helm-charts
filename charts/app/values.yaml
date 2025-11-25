@@ -56,5 +56,5 @@ dnsInternal:
     gateways:
 
 deployment:
-  gracefulshutdown:
+  gracefulShutdown:
     terminationGracePeriodSeconds: 30
