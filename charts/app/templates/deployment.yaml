@@ -44,11 +44,11 @@ spec:
           - containerPort: {{.Values.image.port}}
         env:
           - name: ASPNETCORE_ENVIRONMENT
-            value: "{{ $envName }}"
+            value: "{{ .Values.environmentName }}"
           - name: APP_ENV
-            value: "{{ $envName }}"
+            value: "{{ .Values.environmentName }}"
           - name: NODE_ENV
-            value: "{{ $envName }}"
+            value: "{{ .Values.environmentName }}"
           {{- range $env := $envVars}}
           - name: {{ $env.name }}
             value: "{{ $env.value }}"
