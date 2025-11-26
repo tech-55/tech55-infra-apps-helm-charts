@@ -1,13 +1,16 @@
+{{- $envName := include "app.toLower" .Values.environmentName -}}
+{{- $appName := include "app.toLower" .Values.appName -}}
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.appName }}-{{.Values.environmentName}}-service
+  name: {{ $appName }}-{{$envName}}-service
   namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   selector:
-    app: {{ .Values.appName }}
-    environment: {{ .Values.environmentName }}
+    app: {{ $appName }}
+    environment: {{ $envName }}
   ports:
     - port: 80
       targetPort: {{.Values.image.port}}

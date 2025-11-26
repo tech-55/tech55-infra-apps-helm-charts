@@ -1,20 +1,21 @@
-{{- $envName := include "app.envName" . -}}
-{{- $envDnsInternal := include "app.envValue" (dict "Values" .Values "Key" "dnsInternal" "Env" $envName) | fromYaml -}}
+{{- $envName := include "app.toLower" .Values.environmentName -}}
+{{- $appName := include "app.toLower" .Values.appName -}}
+{{- $envDnsInternal := include "app.envValue" (dict "Values" .Values "Key" "dnsInternal" "Env" .Values.environmentName) | fromYaml -}}
 
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: {{ .Values.appName }}-{{ .Values.namespace }}-{{.Values.environmentName}}-vs
+  name: {{ $appName }}-{{ .Values.namespace }}-{{$envName}}-vs
   namespace: istio-system
 spec:
   hosts:
-  - {{ .Values.appName }}.{{ .Values.namespace }}.{{ $envDnsInternal.domain }}
-  - {{ .Values.appName }}-{{.Values.environmentName}}-service.{{ .Values.namespace }}.svc.cluster.local
+  - {{ $appName }}.{{ .Values.namespace }}.{{ $envDnsInternal.domain }}
+  - {{ $appName }}-{{$envName}}-service.{{ .Values.namespace }}.svc.cluster.local
   gateways:
 {{ toYaml $envDnsInternal.gateways | indent 4 }}
   http:
   - route:
     - destination:
-        host: {{ .Values.appName }}-{{.Values.environmentName}}-service.{{ .Values.namespace }}.svc.cluster.local
+        host: {{ $appName }}-{{$envName}}-service.{{ .Values.namespace }}.svc.cluster.local
         port:
           number: 80

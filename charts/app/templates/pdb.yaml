@@ -1,14 +1,15 @@
-{{- $envName := include "app.envName" . -}}
-{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" $envName) | fromYaml -}}
+{{- $envName := include "app.toLower" .Values.environmentName -}}
+{{- $appName := include "app.toLower" .Values.appName -}}
+{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" .Values.environmentName) | fromYaml -}}
 
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ .Values.appName }}-{{ .Values.environmentName }}-pdb
+  name: {{ $appName }}-{{ $envName }}-pdb
   namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.appName }}
-      environment: {{ .Values.environmentName }}
+      app: {{ $appName }}
+      environment: {{ $envName }}
   minAvailable: {{ $envHPA.minReplicas }}
