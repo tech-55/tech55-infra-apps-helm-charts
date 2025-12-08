@@ -1,6 +1,6 @@
-{{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" .Values.awsAccountId) | fromYaml -}}
-{{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" .Values.environmentName) | fromYaml -}}
-{{- $envVars := (index .Values.env .Values.environmentName | default (index .Values.env "default")) -}}
+{{- $envResources := include "app.envValue" (dict "Values" .Values "Key" "resources" "Env" .Values.awsAccountAlias) | fromYaml -}}
+{{- $envServiceAccount := include "app.envValue" (dict "Values" .Values "Key" "serviceAccount" "Env" .Values.awsAccountAlias) | fromYaml -}}
+{{- $envVars := (index .Values.env .Values.awsAccountAlias | default (index .Values.env "default")) -}}
 {{- $envName := include "app.toLower" .Values.environmentName -}}
 {{- $appName := include "app.toLower" .Values.appName -}}
 

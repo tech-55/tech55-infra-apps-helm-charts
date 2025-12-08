@@ -1,7 +1,7 @@
 
 {{- $envName := include "app.toLower" .Values.environmentName -}}
 {{- $appName := include "app.toLower" .Values.appName -}}
-{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" .Values.awsAccountId) | fromYaml -}}
+{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" .Values.awsAccountAlias) | fromYaml -}}
 
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler

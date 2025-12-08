@@ -1,7 +1,7 @@
 appName: app
 namespace: default
 environmentName: Default
-awsAccountId: Default
+awsAccountAlias: Default # 'Sandbox', 'Production', 'PciProduction'
 
 image:
   repository: nginx
