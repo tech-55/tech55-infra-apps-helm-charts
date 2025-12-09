@@ -58,15 +58,7 @@ liveness:
   successThreshold: 1
   failureThreshold: 5
 
-readiness:
-  httpGet:
-    path: /ready
-    port: 80
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  timeoutSeconds: 5
-  successThreshold: 1
-  failureThreshold: 5
+readiness: {}
 
 env:
   Default:
