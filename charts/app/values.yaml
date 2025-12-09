@@ -9,20 +9,44 @@ image:
   port: 80
 
 resources:
-  Default:
+  Sandbox:
     requests:
       cpu: 100m
       memory: 128Mi
     limits:
       cpu: 100m
       memory: 128Mi
+  Production:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 150m
+      memory: 192Mi
+  PciProduction:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 150m
+      memory: 192Mi
 
 autoscaling:
-  Default:
+  Sandbox:
     minReplicas: 1
     maxReplicas: 2
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 75
+  Production:
+    minReplicas: 2
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 70
+  PciProduction:
+    minReplicas: 2
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 75
+    targetMemoryUtilizationPercentage: 70
 
 liveness:
   httpGet:
@@ -34,15 +58,7 @@ liveness:
   successThreshold: 1
   failureThreshold: 5
 
-readiness:
-  httpGet:
-    path: /ready
-    port: 80
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  timeoutSeconds: 5
-  successThreshold: 1
-  failureThreshold: 5
+readiness: {}
 
 env:
   Default:
@@ -52,9 +68,18 @@ serviceAccount:
     roleArn: ""
 
 dnsInternal:
-  Default:
-    domain: 
+  Sandbox:
+    domain: snb-r1.55tech-internal.com
     gateways:
+    - istio-gateway
+  Production:
+    domain: prd-r1.55tech-internal.com
+    gateways:
+    - istio-gateway
+  PciProduction:
+    domain: service-r1.55tech-internal.com
+    gateways:
+     - private-istio-gateway
 
 deployment:
   gracefulShutdown:
