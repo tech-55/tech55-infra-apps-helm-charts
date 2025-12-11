@@ -79,7 +79,7 @@ dnsInternal:
   PciProduction:
     domain: service-r1.55tech-internal.com
     gateways:
-     - private-istio-gateway
+     - istio-gateway
 
 deployment:
   gracefulShutdown:
