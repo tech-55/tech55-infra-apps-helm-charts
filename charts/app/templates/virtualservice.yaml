@@ -10,12 +10,12 @@ metadata:
 spec:
   hosts:
   - {{ $appName }}.{{ .Values.namespace }}.{{ $envDnsInternal.domain }}
-  - {{ $appName }}-{{$envName}}-service.{{ .Values.namespace }}.svc.cluster.local
+  - {{ $appName }}-service.{{ .Values.namespace }}.svc.cluster.local
   gateways:
 {{ toYaml $envDnsInternal.gateways | indent 4 }}
   http:
   - route:
     - destination:
-        host: {{ $appName }}-{{$envName}}-service.{{ .Values.namespace }}.svc.cluster.local
+        host: {{ $appName }}-service.{{ .Values.namespace }}.svc.cluster.local
         port:
           number: 80
