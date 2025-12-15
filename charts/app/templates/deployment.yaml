@@ -42,6 +42,11 @@ spec:
         image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
         ports:
           - containerPort: {{.Values.image.port}}
+        envFrom:
+          - configMapRef:
+              name: {{ .Values.mapConfigMapToEnv.generalName }}
+          - configMapRef:
+              name: {{ .Values.mapConfigMapToEnv.awsAccountName }}
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "{{ .Values.environmentName }}"
