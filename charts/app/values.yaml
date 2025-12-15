@@ -84,3 +84,7 @@ dnsInternal:
 deployment:
   gracefulShutdown:
     terminationGracePeriodSeconds: 30
+
+mapConfigMapToEnv:
+  generalName: general-config-map
+  awsAccountName: aws-account-config-map
