@@ -54,6 +54,8 @@ spec:
             value: "{{ .Values.environmentName }}"
           - name: NODE_ENV
             value: "{{ .Values.environmentName }}"
+          - name: SHARED__OtelConfig__ServiceName
+            value: "{{ .Values.appName }}"
           {{- range $env := $envVars}}
           - name: {{ $env.name }}
             value: "{{ $env.value }}"
