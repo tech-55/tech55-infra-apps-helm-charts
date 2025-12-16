@@ -1,11 +1,10 @@
-{{- $envName := include "app.toLower" .Values.environmentName -}}
 {{- $appName := include "app.toLower" .Values.appName -}}
 {{- $envDnsInternal := include "app.envValue" (dict "Values" .Values "Key" "dnsInternal" "Env" .Values.awsAccountAlias) | fromYaml -}}
 
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: {{ $appName }}-{{ .Values.namespace }}-{{$envName}}-vs
+  name: {{ $appName }}-{{ .Values.namespace }}-vs
   namespace: istio-system
 spec:
   hosts:

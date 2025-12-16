@@ -1,18 +1,17 @@
 
-{{- $envName := include "app.toLower" .Values.environmentName -}}
 {{- $appName := include "app.toLower" .Values.appName -}}
 {{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" .Values.awsAccountAlias) | fromYaml -}}
 
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ $appName }}-{{$envName}}-hpa
+  name: {{ $appName }}-hpa
   namespace: {{ .Values.namespace }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ $appName }}-{{$envName}}-deployment
+    name: {{ $appName }}-deployment
   minReplicas: {{ $envHPA.minReplicas }}
   maxReplicas: {{ $envHPA.maxReplicas }}
   {{- if or $envHPA.targetCPUUtilizationPercentage $envHPA.targetMemoryUtilizationPercentage }}

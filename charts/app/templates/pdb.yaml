@@ -5,7 +5,7 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ $appName }}-{{ $envName }}-pdb
+  name: {{ $appName }}-pdb
   namespace: {{ .Values.namespace }}
 spec:
   selector:

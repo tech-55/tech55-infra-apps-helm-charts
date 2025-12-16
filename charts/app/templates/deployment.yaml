@@ -7,7 +7,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $appName }}-{{$envName}}-deployment
+  name: {{ $appName }}-deployment
   namespace: {{ .Values.namespace }}
 spec:
   selector:
@@ -26,7 +26,7 @@ spec:
         environment: {{ $envName }}
     spec:
       {{- if $envServiceAccount.roleArn }}
-      serviceAccountName: {{$appName}}-{{$envName }}-sa
+      serviceAccountName: {{$appName}}-sa
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.deployment.gracefulShutdown.terminationGracePeriodSeconds }}
       topologySpreadConstraints:
