@@ -56,6 +56,8 @@ spec:
             value: "{{ .Values.environmentName }}"
           - name: SHARED__OtelConfig__ServiceName
             value: "{{ .Values.appName }}"
+          - name: SHARED__OtelConfig__ServiceVersion
+            value: "{{ .Values.image.tag }}"
           {{- range $env := $envVars}}
           - name: {{ $env.name }}
             value: "{{ $env.value }}"
