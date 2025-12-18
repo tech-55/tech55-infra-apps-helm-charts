@@ -54,6 +54,10 @@ spec:
             value: "{{ .Values.environmentName }}"
           - name: NODE_ENV
             value: "{{ .Values.environmentName }}"
+          - name: SERVICE_NAME
+            value: "{{ .Values.appName }}"
+          - name: SERVICE_VERSION
+            value: "{{ .Values.image.tag }}"
           - name: SHARED__OtelConfig__ServiceName
             value: "{{ .Values.appName }}"
           - name: SHARED__OtelConfig__ServiceVersion
