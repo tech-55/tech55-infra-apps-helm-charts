@@ -3,6 +3,16 @@ entries:
   app:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-12-30T13:19:54.765676949Z"
+    description: A Helm chart for Kubernetes
+    digest: 05750ccac76756f06e51a7baa94744000bf9679a2ca4eb7b14ed512c134c1ab2
+    name: app
+    type: application
+    urls:
+    - https://github.com/tech-55/tech55-infra-apps-helm-charts/releases/download/app-0.1.23/app-0.1.23.tgz
+    version: 0.1.23
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-12-18T17:48:31.869263407Z"
     description: A Helm chart for Kubernetes
     digest: 04c1b7b7503018000ebac3557abae3602320cd16df9076a6ffeca7953e92623a
@@ -231,4 +241,4 @@ entries:
     urls:
     - https://tech-55.github.io/tech55-infra-apps-helm-charts/app-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-18T17:48:31.869456519Z"
+generated: "2025-12-30T13:19:54.765937324Z"
