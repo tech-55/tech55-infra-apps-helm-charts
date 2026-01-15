@@ -29,6 +29,17 @@ spec:
       serviceAccountName: {{$appName}}-sa
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.deployment.gracefulShutdown.terminationGracePeriodSeconds }}
+      
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: eks.amazonaws.com/nodegroup
+                    operator: In
+                    values: ["on-demand-nodes"]
+
       topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: topology.kubernetes.io/zone
