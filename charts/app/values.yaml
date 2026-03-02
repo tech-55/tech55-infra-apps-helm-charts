@@ -39,12 +39,12 @@ autoscaling:
     targetMemoryUtilizationPercentage: 75
   Production:
     minReplicas: 2
-    maxReplicas: 6
+    maxReplicas: 10
     targetCPUUtilizationPercentage: 75
     targetMemoryUtilizationPercentage: 70
   PciProduction:
     minReplicas: 2
-    maxReplicas: 6
+    maxReplicas: 10
     targetCPUUtilizationPercentage: 75
     targetMemoryUtilizationPercentage: 70
 
