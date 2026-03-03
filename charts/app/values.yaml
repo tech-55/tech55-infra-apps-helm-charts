@@ -18,15 +18,15 @@ resources:
       memory: 128Mi
   Production:
     requests:
-      cpu: 50m
-      memory: 64Mi
+      cpu: 100m
+      memory: 128Mi
     limits:
       cpu: 250m
       memory: 512Mi
   PciProduction:
     requests:
-      cpu: 50m
-      memory: 64Mi
+      cpu: 100m
+      memory: 128Mi
     limits:
       cpu: 250m
       memory: 512Mi

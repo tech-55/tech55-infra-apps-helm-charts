@@ -21,15 +21,15 @@ spec:
       resource:
         name: cpu
         target:
-          type: Utilization
-          averageUtilization: {{ $envHPA.targetCPUUtilizationPercentage }}
+          type: AverageValue
+          averageValue: {{ $envHPA.targetCPUUtilizationPercentage }}
     {{- end }}
     {{- if $envHPA.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
         target:
-          type: Utilization
-          averageUtilization: {{ $envHPA.targetMemoryUtilizationPercentage }}
+          type: AverageValue
+          averageValue: {{ $envHPA.targetMemoryUtilizationPercentage }}
     {{- end }}
   {{- end }}
