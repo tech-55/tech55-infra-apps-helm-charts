@@ -11,8 +11,8 @@ image:
 resources:
   Sandbox:
     requests:
-      cpu: 50m
-      memory: 64Mi
+      cpu: 10m
+      memory: 32Mi
     limits:
       cpu: 100m
       memory: 128Mi
@@ -21,32 +21,32 @@ resources:
       cpu: 50m
       memory: 64Mi
     limits:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 250m
+      memory: 512Mi
   PciProduction:
     requests:
       cpu: 50m
-      memory: 128Mi
+      memory: 64Mi
     limits:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 250m
+      memory: 512Mi
 
 autoscaling:
   Sandbox:
     minReplicas: 1
     maxReplicas: 2
-    targetCPUUtilizationPercentage: 80
-    targetMemoryUtilizationPercentage: 75
+    targetCPUUtilizationPercentage: 90
+    targetMemoryUtilizationPercentage: 85
   Production:
     minReplicas: 2
     maxReplicas: 10
-    targetCPUUtilizationPercentage: 75
-    targetMemoryUtilizationPercentage: 70
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 75
   PciProduction:
     minReplicas: 2
     maxReplicas: 10
-    targetCPUUtilizationPercentage: 75
-    targetMemoryUtilizationPercentage: 70
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 75
 
 liveness:
   httpGet:
