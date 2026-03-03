@@ -14,22 +14,22 @@ spec:
     name: {{ $appName }}-deployment
   minReplicas: {{ $envHPA.minReplicas }}
   maxReplicas: {{ $envHPA.maxReplicas }}
-  {{- if or $envHPA.targetCPUUtilizationPercentage $envHPA.targetMemoryUtilizationPercentage }}
+  {{- if or $envHPA.targetCPUAverageValue $envHPA.targetMemoryAverageValue }}
   metrics:
-    {{- if $envHPA.targetCPUUtilizationPercentage }}
+    {{- if $envHPA.targetCPUAverageValue }}
     - type: Resource
       resource:
         name: cpu
         target:
           type: AverageValue
-          averageValue: {{ $envHPA.targetCPUUtilizationPercentage }}
+          averageValue: {{ $envHPA.targetCPUAverageValue }}
     {{- end }}
-    {{- if $envHPA.targetMemoryUtilizationPercentage }}
+    {{- if $envHPA.targetMemoryAverageValue }}
     - type: Resource
       resource:
         name: memory
         target:
           type: AverageValue
-          averageValue: {{ $envHPA.targetMemoryUtilizationPercentage }}
+          averageValue: {{ $envHPA.targetMemoryAverageValue }}
     {{- end }}
   {{- end }}
