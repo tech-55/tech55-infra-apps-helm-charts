@@ -38,7 +38,7 @@ autoscaling:
     # targetCPUUtilizationPercentage: 90
     # targetMemoryUtilizationPercentage: 85
     targetCPUAverageValue: 100m
-    targetMemoryAverageValue: 128Mi
+    targetMemoryAverageValue: 256Mi
   Production:
     minReplicas: 2
     maxReplicas: 10
