@@ -11,7 +11,7 @@ spec:
   hosts:
   - {{ .Values.oldHost }}
   gateways:
-{{ toYaml $envDnsInternal.gateways | indent 4 }}
+  - old-istio-gateway
   http:
   - route:
     - destination:
