@@ -1,5 +1,4 @@
 {{- $appName := include "app.toLower" .Values.appName -}}
-{{- $envDnsInternal := include "app.envValue" (dict "Values" .Values "Key" "dnsInternal" "Env" .Values.awsAccountAlias) | fromYaml -}}
 
 {{- if .Values.oldHost }}
 apiVersion: networking.istio.io/v1beta1
