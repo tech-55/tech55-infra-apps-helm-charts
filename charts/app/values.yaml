@@ -87,6 +87,8 @@ dnsInternal:
     gateways:
      - istio-gateway
 
+oldHost: ""
+
 deployment:
   gracefulShutdown:
     terminationGracePeriodSeconds: 30
