@@ -1,5 +1,6 @@
 {{- $appName := include "app.toLower" .Values.appName -}}
 
+{{- if eq .Values.awsAccountAlias "Production" }}
 {{- if .Values.oldHost }}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -17,4 +18,5 @@ spec:
         host: {{ $appName }}-service.{{ .Values.namespace }}.svc.cluster.local
         port:
           number: 80
+{{- end }}
 {{- end }}
