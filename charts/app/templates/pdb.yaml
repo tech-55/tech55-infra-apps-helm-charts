@@ -1,7 +1,7 @@
 {{- $envName := include "app.toLower" .Values.environmentName -}}
 {{- $appName := include "app.toLower" .Values.appName -}}
-{{- $envHPA := include "app.envValue" (dict "Values" .Values "Key" "autoscaling" "Env" .Values.awsAccountAlias) | fromYaml -}}
 
+{{- if ne .Values.awsAccountAlias "Sandbox" }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -12,4 +12,5 @@ spec:
     matchLabels:
       app: {{ $appName }}
       environment: {{ $envName }}
-  minAvailable: {{ $envHPA.minReplicas }}
+  minAvailable: 2
+{{- end }}
