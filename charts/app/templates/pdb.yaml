@@ -1,7 +1,8 @@
 {{- $envName := include "app.toLower" .Values.environmentName -}}
 {{- $appName := include "app.toLower" .Values.appName -}}
+{{- $account := lower .Values.awsAccountAlias -}}
 
-{{- if ne .Values.awsAccountAlias "Sandbox" }}
+{{- if ne $account "sandbox" }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
