@@ -14,6 +14,7 @@ spec:
     matchLabels:
       app: {{ $appName }}
       environment: {{ $envName }}
+  minReadySeconds: 20
   strategy:
     type: RollingUpdate
     rollingUpdate:
