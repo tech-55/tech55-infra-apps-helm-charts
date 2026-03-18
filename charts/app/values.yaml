@@ -58,7 +58,7 @@ liveness:
   httpGet:
     path: /hc
     port: 80
-  initialDelaySeconds: 35
+  initialDelaySeconds: 20
   periodSeconds: 10
   timeoutSeconds: 5
   successThreshold: 1
@@ -68,7 +68,7 @@ readiness:
   httpGet:
     path: /hc
     port: 80
-  initialDelaySeconds: 30
+  initialDelaySeconds: 15
   periodSeconds: 10
   timeoutSeconds: 5
   successThreshold: 1
