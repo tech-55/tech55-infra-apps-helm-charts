@@ -68,7 +68,7 @@ readiness:
   httpGet:
     path: /hc
     port: 80
-  initialDelaySeconds: 15
+  initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
   successThreshold: 1
