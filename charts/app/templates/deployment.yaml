@@ -59,6 +59,13 @@ spec:
               name: {{ .Values.mapConfigMapToEnv.generalName }}
           - configMapRef:
               name: {{ .Values.mapConfigMapToEnv.awsAccountName }}
+              
+          {{- with .Values.mapSecretToEnv }}
+          {{- range . }}
+          - secretRef:
+              name: {{ . }}
+          {{- end }}
+          {{- end }}
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "{{ .Values.environmentName }}"
@@ -76,7 +83,12 @@ spec:
             value: "{{ .Values.image.tag }}"
           {{- range $env := $envVars}}
           - name: {{ $env.name }}
+          {{- if hasKey $env "valueFrom" }}
+            valueFrom:
+          {{ toYaml $env.valueFrom | indent 12 }}
+          {{- else if hasKey $env "value" }}
             value: "{{ $env.value }}"
+          {{- end }}
           {{- end }}
         {{- with .Values.liveness }}
         livenessProbe:
