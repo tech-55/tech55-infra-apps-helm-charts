@@ -102,3 +102,11 @@ spec:
         resources:
 {{ toYaml . | indent 12 }}
         {{- end }}
+        {{- with .Values.extraVolumeMounts }}
+        volumeMounts:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+      volumes:
+{{ toYaml . | indent 8 }}
+      {{- end }}

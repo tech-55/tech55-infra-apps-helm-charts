@@ -98,3 +98,6 @@ deployment:
 mapConfigMapToEnv:
   generalName: general-config-map
   awsAccountName: aws-account-config-map
+
+extraVolumes: []
+extraVolumeMounts: []
