@@ -16,16 +16,18 @@ spec:
       environment: {{ $envName }}
   minReadySeconds: 20
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+    {{- toYaml .Values.strategy | nindent 4 }}
   template:
     metadata:
       labels:
         app: {{ $appName }}
         environment: {{ $envName }}
     spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
       {{- if $envServiceAccount.roleArn }}
       serviceAccountName: {{$appName}}-sa
       {{- end }}
@@ -49,6 +51,40 @@ spec:
           matchLabels:
             app: {{ $appName }}
             environment: {{ $envName }}
+      
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- range . }}
+        - name: {{ .name }}
+          image: {{ .image | default (printf "%s:%s" $.Values.image.repository $.Values.image.tag) }}
+          {{- with .command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          {{- if .envFromSecret }}
+          envFrom:
+            {{- range $.Values.mapSecretToEnv }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
+          {{- end }}
+
+          {{- with .env }}
+          env:
+            {{- range $key, $value := . }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- end }}
+
+          {{- with .volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+
       containers:
       - name: {{ $appName }}
         image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag }}
