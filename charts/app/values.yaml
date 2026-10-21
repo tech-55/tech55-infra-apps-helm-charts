@@ -80,14 +80,20 @@ dnsInternal:
     domain: snb-r1.55tech-internal.com
     gateways:
     - istio-gateway
+    virtualService:
+      namespace: istio-system
   Production:
     domain: prd-r1.55tech-internal.com
     gateways:
     - istio-gateway
+    virtualService:
+      namespace: istio-system
   PciProduction:
     domain: service-r1.55tech-internal.com
     gateways:
      - istio-gateway
+    virtualService:
+      namespace: istio-system
 
 oldHost: ""
 

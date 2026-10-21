@@ -5,7 +5,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: {{ $appName }}-{{ .Values.namespace }}-vs
-  namespace: istio-system
+  namespace: {{ $envDnsInternal.virtualService.namespace }}
 spec:
   hosts:
   - {{ $appName }}.{{ .Values.namespace }}.{{ $envDnsInternal.domain }}
